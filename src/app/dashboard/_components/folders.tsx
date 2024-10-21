@@ -8,7 +8,7 @@ const Folders = () => {
     if (error) return <div>Error loading folders: {error.message}</div>;
 
   return (
-    <div className="grid grid-cols-6 gap-4 py-4">
+    <div className="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-4 py-4">
       {folders?.map((item) => (
         <FolderItem key={item.folderId} folder={item} />
       ))}
