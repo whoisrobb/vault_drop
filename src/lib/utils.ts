@@ -6,7 +6,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const serverUrl = "http://localhost:5050"
+// export const serverUrl = "http://localhost:5050"
+export const serverUrl = "https://vault-drop-server.onrender.com"
 
 export function formatBytes(
   bytes: number,
