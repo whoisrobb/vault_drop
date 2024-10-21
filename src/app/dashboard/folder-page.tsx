@@ -1,11 +1,15 @@
-import { useLocation } from "react-router-dom"
+import { useParams } from "react-router-dom"
+import FilesTable from "./_components/files-table";
+import { useGetFolderFiles } from "@/hooks/use-file-query";
 
 const FolderPage = () => {
-  const { pathname } = useLocation();
-  console.log(pathname.split('/').pop());
+  const { folderId } = useParams();
+
+  const { data: files } = useGetFolderFiles(folderId!);
+  console.log(files);
   return (
     <div>
-      Folder page
+      {files && <FilesTable files={files} />}
     </div>
   )
 }

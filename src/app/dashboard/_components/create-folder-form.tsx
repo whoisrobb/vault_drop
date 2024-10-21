@@ -16,8 +16,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { FileUpload } from "@/components/elements/uploader";
 import FileCard from "./file-card";
 import { toast } from "sonner";
-import { handleCreateFolder } from "@/app/api/folder";
 import { useNavigate } from "react-router-dom";
+import { useCreateFolder } from "@/hooks/folder-query";
 
 
 const folderFormSchema = z.object({
@@ -25,9 +25,11 @@ const folderFormSchema = z.object({
 });
 
 type FolderSchema = z.infer<typeof folderFormSchema>;
+// const queryClient = useQueryClient();
 
 const CreateFolderForm = ({ setOpen }: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
     const [files, setFiles] = useState<File[]>([]);
+    const { mutateAsync: createFolderMutation } = useCreateFolder();
     const navigate = useNavigate();
 
     const form = useForm<FolderSchema>({
@@ -41,16 +43,14 @@ const CreateFolderForm = ({ setOpen }: { setOpen: Dispatch<SetStateAction<boolea
         if (!files) return
         const newFiles = files.filter((_, i) => i !== index)
         setFiles(newFiles);
-    }
+    };
 
     const onSubmit = async (values: FolderSchema) => {
-        console.log(values)
-
         const formData = new FormData();
         formData.append("name", values.name);
         files.forEach((file) => formData.append("files", file));
         
-        let folderCreationPromise = () => handleCreateFolder(formData);
+        let folderCreationPromise = () => createFolderMutation(formData);
 
         toast.promise(folderCreationPromise(), {
             loading: 'Creating folder...',
